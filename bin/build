@@ -41,15 +41,15 @@ export PATH="$otplayer/bin:$elixirlayer/bin:$PATH"
 
 # Setup Rebar and Hex
 echo "---> Installing Rebar"
-mix local.rebar --force > /dev/null
+MIX_ENV=prod mix local.rebar --force > /dev/null
 echo "---> Installing Hex"
-mix local.hex --force > /dev/null
+MIX_ENV=prod mix local.hex --force > /dev/null
 
 # Install and compile packages
 echo "---> Installing and compiling packages"
-mix do deps.get, deps.compile
+MIX_ENV=prod mix do deps.get, deps.compile
 
 # Compile project
 echo "---> Compiling project"
-mix compile
+MIX_ENV=prod mix compile
 
