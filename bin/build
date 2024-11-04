@@ -3,6 +3,12 @@ set -eo pipefail
 
 echo "---> Elixir Buildpack"
 
+# Load environment variables from .env if it exists
+if [ -f .env ]; then
+  echo "---> Loading environment variables from .env"
+  export $(grep -v '^#' .env | xargs)
+fi
+
 # Get args
 layersdir=$1
 otp_version=25.3.2.14
@@ -38,7 +44,6 @@ export LANG=C.UTF-8
 export LC_ALL=C.UTF-8
 export PATH="$otplayer/bin:$elixirlayer/bin:$PATH"
 
-
 # Setup Rebar and Hex
 echo "---> Installing Rebar"
 MIX_ENV=prod mix local.rebar --force > /dev/null
@@ -52,4 +57,3 @@ MIX_ENV=prod mix do deps.get, deps.compile
 # Compile project
 echo "---> Compiling project"
 MIX_ENV=prod mix compile
-
